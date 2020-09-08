@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
+const shopController = require('../controllers/shop.controller');
+
 //shop index
-router.get('/', (req,res,next)=>{
-    //fetchAll
-});
+router.get('/', shopController.getProducts);
 
 router.get('/products', (req,res,next) => {
 

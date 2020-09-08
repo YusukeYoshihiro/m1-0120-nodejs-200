@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 
 const app = express();
+const shopRoute = require('./routes/shop.route');
 
 //-------Middlewares
 
@@ -19,7 +20,7 @@ app.use(express.static(path.join(__dirname,'public')));
 //set the routes for admin
 // app.use('/admin', );
 //set the routes for shop
-//app.use();
+app.use(shopRoute);
 
 //-------end of Middlewares
 
