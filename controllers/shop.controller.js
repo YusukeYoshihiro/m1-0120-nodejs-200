@@ -58,3 +58,25 @@ exports.postCart = (req,res,next) => {
         res.redirect('/cart');
     });
 };
+
+exports.postCartDeleteProduct = (req,res,next) => {
+    const prodId = req.body.productId;
+    Product.findById(prodId, product => {
+        Cart.deleteProduct(prodId, product.price);
+        res.redirect('/cart');
+    });
+};
+
+exports.getOrders = (req,res,next) => {
+    res.render('shops/orders', {
+        pageTitle: 'Your Orders',
+        path: '/orders'
+    });
+};
+
+exports.getCheckOut = (req,res,next) => {
+    res.render('shops/checkout', {
+        pageTitle: 'Checkout',
+        path: '/checkout'
+    })
+}

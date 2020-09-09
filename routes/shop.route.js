@@ -20,16 +20,11 @@ router.get('/cart', shopController.getCart);
 //post a product on cart ---or add to cart
 router.post('/cart', shopController.postCart);
 
-router.post('/cart-delete-item', (req,res,next) => {
+// delete a product from cart
+router.post('/cart-delete-item', shopController.postCartDeleteProduct);
 
-});
+router.get('/orders', shopController.getOrders);
 
-router.get('/orders',  (req,res,next) => {
-
-});
-
-router.get('/checkout', (req,res,next) => {
-
-});
+router.get('/checkout', shopController.getCheckOut);
 
 module.exports = router;
