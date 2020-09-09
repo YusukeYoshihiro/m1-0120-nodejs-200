@@ -8,7 +8,7 @@ exports.getProducts = (req,res,next)=>{
         res.render('shops/product-list', {
             pageTitle: 'All Products',
             products: products,
-
+            path: '/products'
         });
     });
 };
