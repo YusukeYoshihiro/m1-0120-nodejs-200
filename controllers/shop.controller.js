@@ -2,23 +2,32 @@ const Cart = require('../models/cart.model');
 const Product = require('../models/product.model');
 
 //getting all products
-exports.getProducts = (req,res,next)=>{
+exports.getProducts = (req, res, next) => {
     //fetchAll
-    Product.fetchAll(products => {
-        // res.json(products);
-        res.render('shops/product-list', {
-            pageTitle: 'All Products',
-            products: products,
-            path: '/' //for navigation bar's active button
-        });
-    });
+    Product.fetchAll()
+        .then(([rows, fieldData]) => {
+            res.render('shops/product-list', {
+                pageTitle: 'All Products',
+                products: rows,
+                path: '/' //for navigation bar's active button
+            });
+        })
+        .catch(err => console.log(err));
+    // Product.fetchAll(products => {
+    //     // res.json(products);
+    //     res.render('shops/product-list', {
+    //         pageTitle: 'All Products',
+    //         products: products,
+    //         path: '/' //for navigation bar's active button
+    //     });
+    // });
 };
 
 //getting one product
-exports.getOneProduct = (req,res,next) => {
+exports.getOneProduct = (req, res, next) => {
     const prodId = req.params.productId;
     Product.findById(prodId, product => {
-        console.log('product: ',product)
+        console.log('product: ', product)
         res.render('shops/product-detail', {
             pageTitle: product.title,
             product: product,
@@ -27,20 +36,20 @@ exports.getOneProduct = (req,res,next) => {
     })
 };
 
-exports.getCart = (req,res,next) => {
+exports.getCart = (req, res, next) => {
     //access the getCart method with a callback function where we will eventually receive the cart items if there are any
     Cart.getCart(cart => {
         //we need a little information about the products too
         Product.fetchAll(products => {
             const cartProducts = [];
             //filter out the products which are in the cart
-            for(product of products){
+            for (product of products) {
                 //check if this product from Products Data matches the product that is stored in the cart (if any)
                 const cartProductData = cart.products.find(
                     prod => prod.id === product.id
                 );
                 //, if it does exist, push the data to cartProducts array
-                if(cartProductData){
+                if (cartProductData) {
                     cartProducts.push({
                         productData: product, //holds all the filtered product data from Product model 
                         qty: cartProductData.qty //there is not quantity property in Product Model, so we  take it from the cart's product data
@@ -56,7 +65,7 @@ exports.getCart = (req,res,next) => {
     })
 }
 
-exports.postCart = (req,res,next) => {
+exports.postCart = (req, res, next) => {
     const prodId = req.body.productId;
     Product.findById(prodId, product => {
         Cart.addProduct(prodId, product.price);
@@ -64,7 +73,7 @@ exports.postCart = (req,res,next) => {
     });
 };
 
-exports.postCartDeleteProduct = (req,res,next) => {
+exports.postCartDeleteProduct = (req, res, next) => {
     const prodId = req.body.productId;
     Product.findById(prodId, product => {
         Cart.deleteProduct(prodId, product.price);
@@ -72,14 +81,14 @@ exports.postCartDeleteProduct = (req,res,next) => {
     });
 };
 
-exports.getOrders = (req,res,next) => {
+exports.getOrders = (req, res, next) => {
     res.render('shops/orders', {
         pageTitle: 'Your Orders',
         path: '/orders'
     });
 };
 
-exports.getCheckOut = (req,res,next) => {
+exports.getCheckOut = (req, res, next) => {
     res.render('shops/checkout', {
         pageTitle: 'Checkout',
         path: '/checkout'
