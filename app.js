@@ -4,6 +4,7 @@ const path = require('path');
 
 const app = express();
 const shopRoute = require('./routes/shop.route');
+const adminRoute = require('./routes/admin.route');
 const db = require('./util/database');
 
 //-------Middlewares
@@ -20,7 +21,7 @@ app.use(bodyParser.urlencoded({extended:false}));
 app.use('/public', express.static('public'));
 
 //set the routes for admin
-// app.use('/admin', );
+app.use('/admin', adminRoute);
 //set the routes for shop
 app.use(shopRoute);
 
