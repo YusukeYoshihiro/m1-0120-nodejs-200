@@ -7,20 +7,12 @@ router.get('/add-product', adminController.getAddProduct);
 
 router.post('/add-product', adminController.postAddProduct);
 
-router.get('/products', (req,res,next) => {
+router.get('/products', adminController.getProducts);
 
-});
+router.get('/edit-product/:productId', adminController.getEditProduct);
 
-router.get('/edit-product/:productId', (req,res,next) => {
+router.post('/edit-product', adminController.postEditProduct);
 
-});
-
-router.post('/edit-product', (req,res,next) => {
-
-});
-
-router.post('/delete-product', (req,res,next) => {
-
-});
+router.post('/delete-product', adminController.postDeleteProduct);
 
 module.exports = router;

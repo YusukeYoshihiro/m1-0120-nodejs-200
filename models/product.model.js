@@ -17,12 +17,20 @@ module.exports = class Products {
         );
     }
 
+    edit() {
+        return db.execute(
+            'UPDATE products SET title = ?, imageUrl = ?, description = ?, price = ? WHERE id = ?',
+            [this.title, this.imageUrl, this.description, this.price,  this.id]
+        );
+    }
+
     //deletebyid
     static deleteById(id){
+        return db.execute('DELETE FROM products WHERE products.id = ?', [id]);
     }
 
     //fetch all data
-    static fetchAll(cb){
+    static fetchAll(){
         return db.execute('SELECT * FROM products');
     }
 
