@@ -28,17 +28,22 @@ exports.getOneProduct = (req,res,next) => {
 };
 
 exports.getCart = (req,res,next) => {
+    //access the getCart method with a callback function where we will eventually receive the cart items if there are any
     Cart.getCart(cart => {
+        //we need a little information about the products too
         Product.fetchAll(products => {
             const cartProducts = [];
+            //filter out the products which are in the cart
             for(product of products){
+                //check if this product from Products Data matches the product that is stored in the cart (if any)
                 const cartProductData = cart.products.find(
                     prod => prod.id === product.id
                 );
+                //, if it does exist, push the data to cartProducts array
                 if(cartProductData){
                     cartProducts.push({
-                        productData: product,
-                        qty: cartProductData.qty
+                        productData: product, //holds all the filtered product data from Product model 
+                        qty: cartProductData.qty //there is not quantity property in Product Model, so we  take it from the cart's product data
                     });
                 }
             }

@@ -19,14 +19,15 @@ module.exports = class Cart{
             const existingProduct = cart.products[exisitingProductIndex];
             
             let updatedProduct;
+            // Increase quantity
             if(existingProduct){
                 updatedProduct = { ...existingProduct };
                 updatedProduct.qty = updatedProduct.qty + 1;
-                cart.products = [...cart.products];
-                cart.products[exisitingProductIndex] = updatedProduct;
-            }else{
-                updatedProduct = { id, qty: 1 };
-                cart.products  = [...cart.products, updatedProduct];
+                cart.products = [...cart.products]; //an array with the old cart products
+                cart.products[exisitingProductIndex] = updatedProduct; //overwrite with updateProduct
+            }else{ // Add new product
+                updatedProduct = { id, qty: 1 }; //new additional product
+                cart.products  = [...cart.products, updatedProduct]; 
             }
             cart.totalPrice = cart.totalPrice + parseInt(productPrice); // +productPrice is the same as parseInt(productPrice)
             fs.writeFile(p, JSON.stringify(cart), err => {
@@ -40,7 +41,9 @@ module.exports = class Cart{
         fs.readFile(p, (err, fileContent)=>{
             if(err) return;
 
+            //start updating the cart
             const updatedCart = { ...JSON.parse(fileContent) };
+            //need the product to find out what the quantity is
             const product = updatedCart.products.find(prod => prod.id === id);
             if(!product) return;
             const productQty = product.qty;

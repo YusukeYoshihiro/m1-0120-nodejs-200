@@ -16,7 +16,8 @@ app.set('views', 'views');
 //parse the request body into readable data
 app.use(bodyParser.urlencoded({extended:false}));
 //specify the public folder to be of static access
-app.use(express.static(path.join(__dirname,'public')));
+// app.use(express.static(path.join(__dirname,'public')));
+app.use('/public', express.static('public'));
 
 //set the routes for admin
 // app.use('/admin', );
